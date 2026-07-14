@@ -75,3 +75,15 @@ docker pull adekolaleke/taskhub-frontend:latest
 ## Author
 
 This deployment was set up by Owoade Adekola (adekolaleke) as part of the Kybern Academy DevOps assignment.
+
+## Optimization Notes
+
+The frontend image was optimized using Next.js standalone output mode, reducing the image size from approximately 1GB to under 200MB by bundling only the minimal runtime files needed, rather than the full node_modules and source tree.
+
+Docker Compose healthchecks were added for MongoDB and the backend service, ensuring the frontend only starts once the backend is confirmed healthy, and the backend only starts once MongoDB is confirmed healthy.
+
+## Troubleshooting
+
+- If the frontend cannot reach the backend, verify NEXT_PUBLIC_API_URL is set correctly and rebuild the frontend image, since this variable is baked in at build time.
+- If MongoDB fails to connect, check that the mongodb container is healthy with: docker compose ps
+- If ports are already in use, stop any local services running on 3000, 3001, or 27017 before starting the stack.
